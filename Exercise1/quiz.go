@@ -2,6 +2,7 @@ package main
 
 import (
 	"encoding/csv"
+	"flag"
 	"fmt"
 	"io"
 	"os"
@@ -10,7 +11,9 @@ import (
 
 func main() {
 	score := 0
-	file, err := os.Open("questions.csv")
+	csvFilename := flag.String("csv", "questions.csv", "CSV file")
+	flag.Parse()
+	file, err := os.Open(*csvFilename)
 	if err != nil {
 		fmt.Printf("ERROR")
 	}
@@ -22,10 +25,8 @@ func main() {
 		if err == io.EOF {
 			break
 		}
-
 		//write question
 		fmt.Printf("%s\n", strings.Join(record[:len(record)-1], ","))
-
 		//read answer
 		var answer string
 		fmt.Scanln(&answer)
